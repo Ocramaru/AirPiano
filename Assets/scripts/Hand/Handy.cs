@@ -25,7 +25,7 @@ namespace Hand
                 lengths[i] = Vector3.Distance(joints[i - 1].position, joints[i].position);
             }
             _spineLengths[finger.name] = lengths;
-            Debug.Log($"Successfully Cached {finger.name} with {lengths.Length} lengths");
+            // Debug.Log($"Successfully Cached {finger.name} with {lengths.Length} lengths");
         }
 
         public void CacheComplete()

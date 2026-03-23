@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ce5a4b28d6b489488150cce16214f0, type: 3}
+  m_Name: Left Spread
+  m_EditorClassIdentifier: Assembly-CSharp::Gestures.HandPose
+  poseName: Left Spread
+  isLeftHand: 1
+  referenceMetadata:
+    thumbCurl: 0.096197
+    indexCurl: 0.11594864
+    middleCurl: 0.11046509
+    ringCurl: 0.104904324
+    pinkyCurl: 0.08385775
+    palmNormal: {x: 0.14646925, y: 0.07803518, z: 0.9861325}
+    thumbTip: {x: -0.09469792, y: 0.0020554808, z: -0.04926496}
+    indexTip: {x: -0.15440881, y: 0.0005949226, z: -0.023125159}
+    middleTip: {x: -0.16071856, y: 0.000043131244, z: 0.006055692}
+    ringTip: {x: -0.14942311, y: 0.0038377675, z: 0.027798207}
+    pinkyTip: {x: -0.12403091, y: 0.0064304373, z: 0.050374065}
+    wristRotation: {x: -0.46584123, y: 0.46094906, z: 0.5736904, w: -0.49132186}
+    wristVerticalDot: 0
+  useEuclideanSimilarity: 1
+  maxFingertipDistance: 0.2
+  useCurlSimilarity: 1
+  usePalmSimilarity: 0
+  useWristVerticalSimilarity: 0
+  wristVerticalTolerance: 0.3
+  similarityThreshold: 0.9

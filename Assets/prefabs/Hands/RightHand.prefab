@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7867234710097606358}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: thumb_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4123663891101126465}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ring_b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6956841043127888848}
   - component: {fileID: 5721873199314412064}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GenericHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3085914728314631136}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ring_a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3073578772802820771}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: pinky_a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,7 +253,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6636431545023197904}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ring_meta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,7 +285,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8006867075927361115}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: index_a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,7 +317,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5559517033600358751}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: middle_b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -349,7 +349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6315356244208945648}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: index_c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -381,7 +381,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 156055859702033374}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: pinky_b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -413,7 +413,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6102122783217883024}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: pinky_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -444,7 +444,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 314066550925273308}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: middle_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -475,7 +475,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5926518780657688172}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: pinky_c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -507,7 +507,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5130364062017971022}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ring_c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -539,7 +539,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1969294462578442637}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: thumb_a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -571,7 +571,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3238476011698045132}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: pinky_meta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -603,7 +603,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5734742780660158562}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: middle_meta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -635,7 +635,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2845692495748820724}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: thumb_b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -667,7 +667,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 477206732387919720}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: index_b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -699,7 +699,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3411920343384868524}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: middle_c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -731,7 +731,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 919736302379255338}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: index_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -762,7 +762,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 456736658428418106}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: middle_a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -794,7 +794,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4572877445925209084}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ring_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -825,7 +825,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2860559024263464055}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wrist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -841,7 +841,7 @@ Transform:
   m_GameObject: {fileID: 6894666626765123015}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 0.06769785, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -864,7 +864,7 @@ GameObject:
   - component: {fileID: 3796431464079307993}
   - component: {fileID: 3201882404568246153}
   - component: {fileID: 1199573448922457289}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -879,7 +879,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6999286458572348378}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0.0000020191071, z: 0.0000020191071, w: 0.7071068}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -923,8 +923,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PianoML.MediaPipeHand
   isLeftHand: 0
-  elbowLength: 0.1
-  elbow: {fileID: 183255627570179450}
   wrist: {fileID: 2860559024263464055}
   thumb:
     joints:
@@ -971,6 +969,8 @@ MonoBehaviour:
     startLandmark: 17
     name: Pinky
   drawDebugSpines: 1
+  axisCorrection: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
+  _leftHandMultiplier: -1
 --- !u!1 &7494522146125871049
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,7 +980,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 183255627570179450}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Elbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1011,7 +1011,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2995900172111665836}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: index_meta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1043,7 +1043,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1528361301844131512}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: thumb_meta
   m_TagString: Untagged
   m_Icon: {fileID: 0}

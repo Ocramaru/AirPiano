@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ce5a4b28d6b489488150cce16214f0, type: 3}
+  m_Name: Right Thumbs Up
+  m_EditorClassIdentifier: Assembly-CSharp::Gestures.HandPose
+  poseName: Right Thumbs Up
+  isLeftHand: 0
+  referenceMetadata:
+    thumbCurl: 0.23400456
+    indexCurl: 1
+    middleCurl: 1
+    ringCurl: 1
+    pinkyCurl: 1
+    palmNormal: {x: 0.03745039, y: 0.009796874, z: -0.9992504}
+    thumbTip: {x: 0.09247257, y: 0.00208209, z: -0.053929448}
+    indexTip: {x: 0.10470979, y: 0.0084845675, z: -0.01293006}
+    middleTip: {x: 0.107557625, y: 0.015606467, z: 0.012464955}
+    ringTip: {x: 0.09049638, y: 0.018539792, z: 0.041674472}
+    pinkyTip: {x: 0.060148075, y: 0.02272883, z: 0.061155666}
+    wristRotation: {x: -0.24551997, y: -0.67399764, z: 0.67587674, w: 0.16922703}
+    wristVerticalDot: -0.034178853
+  useEuclideanSimilarity: 1
+  maxFingertipDistance: 0.2
+  useCurlSimilarity: 1
+  usePalmSimilarity: 0
+  useWristVerticalSimilarity: 1
+  wristVerticalTolerance: 0.15
+  similarityThreshold: 0.9

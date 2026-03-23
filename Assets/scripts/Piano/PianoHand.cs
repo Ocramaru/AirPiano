@@ -1,39 +1,45 @@
 using System.Collections.Generic;
-using System.Linq;
-using Mediapipe.Tasks.Components.Containers;
 using UnityEngine;
+using Gestures;
 using Hand;
 
 namespace Piano
 {
     /// <summary>
-    /// Piano-specific hand behavior that constrains the palm to face down
-    /// and uses 0-1 curl values for fingers instead of full rotation tracking.
-    /// Add this component alongside a Hand component to override its behavior.
+    /// Piano-specific hand behavior driven by a Free Hand reference.
+    /// Position is mapped via calibration offset: (FreeHand.position - restingPos) + pianoRestingPos
+    /// Finger curls are copied from the free hand's metadata.
     /// </summary>
     [RequireComponent(typeof(Hand.Hand))]
     public class PianoHand : MonoBehaviour
     {
-        // Reference to the Hand component we're interfacing with
+        [Header("Free Hand Reference")]
+        [Tooltip("The free hand this piano hand follows")]
+        public Hand.Hand freeHand;
+
         private Hand.Hand _hand;
 
-        private Vector3[] _landmarks = new Vector3[21];
+        // Flat hand reference rotations
         private Dictionary<Finger, Quaternion[]> _flatHandRotations;
-        private Dictionary<Finger, Quaternion[]> _calibrationOffset;
         private Quaternion _flatWristRotation;
-        private Quaternion _wristCalibrationOffset = Quaternion.identity;
+
+        // Calibration state
+        private Vector3 _restingWristPosition;
+        private Vector3 _pianoRestingPosition;
+        private Quaternion _restingWristRotation;
         private bool _calibrated;
+        public bool IsCalibrated => _calibrated;
 
         private void Awake()
         {
             _hand = GetComponent<Hand.Hand>();
-            
+
             // Point to piano and palm to keys
-            var facePiano = Vector3.Cross(Vector3.down, _hand._leftHandMultiplier * Vector3.forward);
+            var facePiano = Vector3.Cross(_hand._leftHandMultiplier * Vector3.forward, Vector3.down);
             _hand.wrist.rotation = Quaternion.LookRotation(facePiano, Vector3.down);
             _flatWristRotation = _hand.wrist.rotation;
-            
-            // Save flat hand rotations
+
+            // Save flat hand rotations for finger curl application
             _flatHandRotations = new Dictionary<Finger, Quaternion[]>
             {
                 { _hand.thumb, GetJointRotations(_hand.thumb) },
@@ -41,15 +47,6 @@ namespace Piano
                 { _hand.middle, GetJointRotations(_hand.middle) },
                 { _hand.ring, GetJointRotations(_hand.ring) },
                 { _hand.pinky, GetJointRotations(_hand.pinky) }
-            };
-            
-            _calibrationOffset = new Dictionary<Finger, Quaternion[]>
-            {
-                { _hand.thumb, Enumerable.Repeat(Quaternion.identity, _hand.thumb.joints.Length).ToArray() },
-                { _hand.index, Enumerable.Repeat(Quaternion.identity, _hand.index.joints.Length).ToArray() },
-                { _hand.middle, Enumerable.Repeat(Quaternion.identity, _hand.middle.joints.Length).ToArray() },
-                { _hand.ring, Enumerable.Repeat(Quaternion.identity, _hand.ring.joints.Length).ToArray() },
-                { _hand.pinky, Enumerable.Repeat(Quaternion.identity, _hand.pinky.joints.Length).ToArray() }
             };
         }
 
@@ -61,81 +58,59 @@ namespace Piano
             return rotations;
         }
 
-        private Quaternion GetWristRotationFromLandmarks()
+        private void LateUpdate()
         {
-            var centroid = (_landmarks[0] + _landmarks[1] + _landmarks[5] + _landmarks[9] + _landmarks[13] + _landmarks[17]) / 6;
-            var centroidDirection = (centroid - _landmarks[0]).normalized;
-            var palmNormal = _hand._leftHandMultiplier * Vector3.Cross(_landmarks[9] - _landmarks[1], _landmarks[17] - _landmarks[9]).normalized;
-            return Quaternion.LookRotation(centroidDirection, palmNormal) * _hand.axisCorrection;
+            if (!freeHand || !_calibrated) return;
+
+            // Position: offset from calibrated resting
+            Vector3 delta = freeHand.wrist.position - _restingWristPosition;
+            _hand.wrist.position = _pianoRestingPosition + delta;
+
+            // Rotation: apply relative rotation from resting
+            Quaternion rotDelta = freeHand.wrist.rotation * Quaternion.Inverse(_restingWristRotation);
+            _hand.wrist.rotation = rotDelta * _flatWristRotation;
+
+            // Copy finger curls from free hand metadata
+            ApplyFingerCurlsFromMetadata(freeHand.Metadata);
         }
 
-        private void Update()
+        /// <summary>
+        /// Calibrate this piano hand. Captures the free hand's current position as "resting".
+        /// </summary>
+        public void Calibrate()
         {
-            if (Input.GetKeyDown(KeyCode.Space)) Calibrate();
-        }
-
-        private void Calibrate()
-        {
-            // Wrist calibration
-            var currentWrist = GetWristRotationFromLandmarks();
-            _wristCalibrationOffset = Quaternion.Inverse(currentWrist) * _flatWristRotation;
-
-            // Finger calibration
-            foreach (var finger in new[] { _hand.thumb, _hand.index, _hand.middle, _hand.ring, _hand.pinky })
+            if (!freeHand)
             {
-                for (int i = 0; i < finger.joints.Length; i++)
-                {
-                    var current = finger.joints[i].localRotation;
-                    var flat = _flatHandRotations[finger][i];
-                    _calibrationOffset[finger][i] = Quaternion.Inverse(current) * flat;
-                }
+                Debug.LogWarning("PianoHand: Cannot calibrate without free hand reference");
+                return;
             }
+
+            _restingWristPosition = freeHand.wrist.position;
+            _restingWristRotation = freeHand.wrist.rotation;
+            _pianoRestingPosition = _hand.wrist.position;
             _calibrated = true;
-            Debug.Log("Hand calibrated");
+            Debug.Log($"PianoHand calibrated: resting pos = {_restingWristPosition}");
         }
 
-        public void UpdateFromLandmarks(NormalizedLandmarks landmarks)
+        private void ApplyFingerCurlsFromMetadata(HandMetadata metadata)
         {
-            if (!_hand) return;
-            if (!_calibrated) { _hand.UpdateFromLandmarks(landmarks); return; }
-            if (landmarks.landmarks == null || landmarks.landmarks.Count < 21) return;
-
-            // Convert landmarks to Unity space
-            for (int i = 0; i < 21; i++) _landmarks[i] = Handy.ToVector3(landmarks.landmarks[i]);
-
-            // Update wrist
-            _hand.wrist.rotation = GetWristRotationFromLandmarks() * _wristCalibrationOffset;
-
-            UpdateFinger(_hand.thumb, true);
-            UpdateFinger(_hand.index);
-            UpdateFinger(_hand.middle);
-            UpdateFinger(_hand.ring);
-            UpdateFinger(_hand.pinky);
+            ApplyFingerCurl(_hand.thumb, metadata.thumbCurl, true);
+            ApplyFingerCurl(_hand.index, metadata.indexCurl);
+            ApplyFingerCurl(_hand.middle, metadata.middleCurl);
+            ApplyFingerCurl(_hand.ring, metadata.ringCurl);
+            ApplyFingerCurl(_hand.pinky, metadata.pinkyCurl);
         }
-        
-        private void UpdateFinger(Finger chain, bool isThumb = false)
+
+        private void ApplyFingerCurl(Finger finger, float curl, bool isThumb = false)
         {
-            if (chain.joints == null || chain.joints.Length < 2) return;
+            if (finger.joints == null || finger.joints.Length < 2) return;
+            if (!_flatHandRotations.TryGetValue(finger, out var flatRotations)) return;
 
-            // Meta bone - point toward first finger landmark
-            if (!isThumb)
+            for (int i = isThumb ? 0 : 1; i < finger.joints.Length; i++)
             {
-                var wristToFingerVector = (_landmarks[chain.startLandmark] - _landmarks[0]).normalized
-                                          * Vector3.Distance(_hand.wrist.position, chain.joints[1].position);
-                var metaToFingerVector = wristToFingerVector - (chain.joints[0].position - _hand.wrist.position);
-                chain.joints[0].rotation = Quaternion.LookRotation(metaToFingerVector, chain.joints[0].up)
-                                           * _hand.axisCorrection * _calibrationOffset[chain][0];
-            }
-
-            // Remaining joints - point at next landmark
-            int landmarkIndex = chain.startLandmark;
-            for (int i = 1; i < chain.joints.Length; i++)
-            {
-                var direction = _landmarks[landmarkIndex + 1] - _landmarks[landmarkIndex];
-                var rotation = Quaternion.LookRotation(direction, chain.joints[i].parent.up)
-                                * _hand.axisCorrection * _calibrationOffset[chain][i];
-                chain.joints[i].rotation = rotation;
-                landmarkIndex++;
+                float curlAngle = curl * 90f;
+                var curledRotation = flatRotations[i] * Quaternion.Euler(curlAngle, 0f, 0f);
+                finger.joints[i].localRotation = curledRotation;
             }
         }
     }
