@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ce5a4b28d6b489488150cce16214f0, type: 3}
+  m_Name: Left Fist
+  m_EditorClassIdentifier: Assembly-CSharp::Gestures.HandPose
+  poseName: Left Fist
+  isLeftHand: 1
+  referenceMetadata:
+    thumbCurl: 1
+    indexCurl: 1
+    middleCurl: 1
+    ringCurl: 1
+    pinkyCurl: 1
+    palmNormal: {x: 0.19606733, y: 0.051493526, z: 0.97923744}
+    thumbTip: {x: -0.094982415, y: 0.003014671, z: -0.040385026}
+    indexTip: {x: -0.104437605, y: 0.020081941, z: -0.036043946}
+    middleTip: {x: -0.0929748, y: 0.020265572, z: -0.02896165}
+    ringTip: {x: -0.087006, y: 0.019232847, z: -0.010582087}
+    pinkyTip: {x: -0.08171353, y: 0.0077159097, z: 0.0030455326}
+    wristRotation: {x: -0.46599373, y: 0.43100303, z: 0.58798075, w: -0.50136304}
+  useEuclideanSimilarity: 0
+  maxFingertipDistance: 0.3
+  useCurlSimilarity: 1
+  usePalmSimilarity: 0
+  similarityThreshold: 0.85
