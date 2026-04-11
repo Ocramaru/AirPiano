@@ -44,11 +44,11 @@ namespace Gestures
         }
 
         /// <summary>
-        /// Return what Hands are Required (left (bool), right (bool)) 
+        /// Return what Hands are Required (left (bool), right (bool))
         /// </summary>
         public (bool,bool) HandsRequired(int stepIndex)
         {
-            return (GetPose(stepIndex, false), GetPose(stepIndex, true));
+            return (GetPose(stepIndex, true), GetPose(stepIndex, false));
         }
     }
 }

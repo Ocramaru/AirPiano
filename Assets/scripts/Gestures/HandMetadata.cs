@@ -9,6 +9,8 @@ namespace Gestures
     [System.Serializable]
     public struct HandMetadata
     {
+        public bool isValid;
+
         // Per-finger curl (0=extended, 1=curled) - from local joint rotations
         public float thumbCurl;
         public float indexCurl;

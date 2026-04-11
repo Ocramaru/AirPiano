@@ -15,23 +15,24 @@ MonoBehaviour:
   poseName: Right Fist
   isLeftHand: 0
   referenceMetadata:
+    isValid: 0
     thumbCurl: 1
     indexCurl: 1
     middleCurl: 1
     ringCurl: 1
     pinkyCurl: 1
-    palmNormal: {x: -0.26004425, y: 0.07747683, z: 0.9624834}
-    thumbTip: {x: 0.09011741, y: 0.024557956, z: -0.051006116}
-    indexTip: {x: 0.0963149, y: 0.027837843, z: -0.03973311}
-    middleTip: {x: 0.08762049, y: 0.029393638, z: -0.029388016}
-    ringTip: {x: 0.08283845, y: 0.02279916, z: -0.014474131}
-    pinkyTip: {x: 0.08494932, y: 0.015503035, z: 0.005507633}
-    wristRotation: {x: 0.49725026, y: 0.3444523, z: 0.58965665, w: 0.5351634}
-    wristVerticalDot: 0
-  useEuclideanSimilarity: 0
+    palmNormal: {x: -0.12809964, y: 0.03617019, z: 0.9911015}
+    thumbTip: {x: 0.089347094, y: 0.021122184, z: -0.05219033}
+    indexTip: {x: 0.083761804, y: 0.034121055, z: -0.042786077}
+    middleTip: {x: 0.06604636, y: 0.028397644, z: -0.029010601}
+    ringTip: {x: 0.052478727, y: 0.020507375, z: -0.011549459}
+    pinkyTip: {x: 0.053704575, y: 0.015355321, z: 0.0059602503}
+    wristRotation: {x: 0.50158733, y: 0.42998475, z: 0.60176754, w: 0.44877517}
+    wristVerticalDot: -0.22742808
+  useEuclideanSimilarity: 1
   maxFingertipDistance: 0.3
   useCurlSimilarity: 1
   usePalmSimilarity: 0
   useWristVerticalSimilarity: 0
   wristVerticalTolerance: 0.3
-  similarityThreshold: 0.93
+  similarityThreshold: 0.9

@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: Calibration Sequence
   m_EditorClassIdentifier: Assembly-CSharp::Gestures.GestureAction
   actionName: Calibration Sequence
-  poses:
-  - {fileID: 11400000, guid: f9681ef85a27545fb99fa80be65cf114, type: 2}
-  - {fileID: 11400000, guid: 29c57194346b943ed9a6461dcb70d9c9, type: 2}
+  steps:
+  - leftPose: {fileID: 11400000, guid: 82066b3964a194f1082d1937e2b4cc78, type: 2}
+    rightPose: {fileID: 11400000, guid: 376680372318b41b388d028e5a399af8, type: 2}
+  - leftPose: {fileID: 11400000, guid: 52d093469553c4ef6960b145a79f6213, type: 2}
+    rightPose: {fileID: 11400000, guid: 0029fd33716e04c0ca6a647ddf59b95a, type: 2}
+  - leftPose: {fileID: 11400000, guid: 82066b3964a194f1082d1937e2b4cc78, type: 2}
+    rightPose: {fileID: 11400000, guid: 376680372318b41b388d028e5a399af8, type: 2}
   commandToTrigger: 1
-  cooldownSeconds: 0.5
+  cooldownSeconds: 2

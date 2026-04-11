@@ -73,8 +73,8 @@ namespace Gestures
 
         private void Update()
         {
-            if (actions == null || handLandmarker?.LeftFreeHand?.Metadata == null 
-                                || handLandmarker?.RightFreeHand?.Metadata == null) 
+            if (actions == null || !handLandmarker?.LeftFreeHand
+                                || !handLandmarker?.RightFreeHand)
                 return;
             
             var leftMeta = handLandmarker.LeftFreeHand.Metadata;
@@ -83,10 +83,10 @@ namespace Gestures
             foreach (var action in actions)
             {
                 if (!action || !_states.TryGetValue(action, out var state) || action.StepCount == 0) continue;
-                if (Time.time - state.lastTriggerTime < action.cooldownSeconds) return;
+                if (Time.time - state.lastTriggerTime < action.cooldownSeconds) continue;
                 
                 int stepIndex = action.IsSequence ? state.currentStep : 0;
-                if (stepIndex >= action.StepCount) return;
+                if (stepIndex >= action.StepCount) continue;
                 
                 bool conditionMet = StepMatches(action, stepIndex, leftMeta, rightMeta);
                 if (action.IsSequence) HandleSequenceStep(action, state, conditionMet);
@@ -104,10 +104,15 @@ namespace Gestures
             // Invalid step: neither hand specified
             if (!requiresLeft && !requiresRight) return false;
 
+            // Check validity for required hands
+            if (requiresLeft && !leftMeta.isValid) return false;
+            if (requiresRight && !rightMeta.isValid) return false;
+
+            // Debug.Log($"GestureSystem: Action '{action.actionName}' step {stepIndex}");
             var (leftMatches, rightMatches) = (true, true);
-            if (requiresLeft) 
+            if (requiresLeft)
                 leftMatches = action.GetPose(stepIndex, true)?.Matches(leftMeta) ?? false;
-            if (requiresRight) 
+            if (requiresRight)
                 rightMatches = action.GetPose(stepIndex, false)?.Matches(rightMeta) ?? false;
 
             return leftMatches && rightMatches;
