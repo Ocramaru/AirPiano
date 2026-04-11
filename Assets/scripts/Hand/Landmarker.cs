@@ -129,9 +129,17 @@ namespace Hand
                 }
             }
             
-            // Hide hands that weren't detected this frame
-            if (!_leftHandDetected && _leftHandModel) _leftHandModel.gameObject.SetActive(false);
-            if (!_rightHandDetected && _rightHandModel) _rightHandModel.gameObject.SetActive(false);
+            // Handle hands that weren't detected this frame
+            if (!_leftHandDetected && _leftHandModel)
+            {
+                _leftHandModel.UpdateFromLandmarks(default);
+                if (!_leftHandModel.IsHolding) _leftHandModel.gameObject.SetActive(false);
+            }
+            if (!_rightHandDetected && _rightHandModel)
+            {
+                _rightHandModel.UpdateFromLandmarks(default);
+                if (!_rightHandModel.IsHolding) _rightHandModel.gameObject.SetActive(false);
+            }
         }
 
         private void OnDestroy()

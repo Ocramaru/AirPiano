@@ -4239,6 +4239,55 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.013026655, y: 0.024277031, z: 0.11307039}
   m_Center: {x: -0.000027447939, y: -0.00076324766, z: -0.03663707}
+--- !u!1 &670285199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 670285201}
+  - component: {fileID: 670285200}
+  m_Layer: 0
+  m_Name: Settings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &670285200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670285199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2fbb692cce0a434f8c3729dba7f3159, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Settings
+  usePreviousHandPositions: 1
+  minPresenceBeforeHold: 0.5
+  handHoldDuration: 1.5
+  landmarkEMAAlpha: 0.3
+  wristRotationEMAAlpha: 0.25
+--- !u!4 &670285201
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670285199}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.14977, y: 0.00228, z: 0.11481}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &685040561 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3371762929327309500, guid: 1269dd83b2ce441e495ab1b8f1b2f181, type: 3}
@@ -8354,7 +8403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mediapipe.Unity.Sample.HandLandmarkDetection.PianoHandLandmarker
   numHands: 2
-  minHandDetectionConfidence: 0.5
+  minHandDetectionConfidence: 0.8
   minTrackingConfidence: 0.5
   enableWebcamDisplay: 1
   webcamDisplay: {fileID: 1199845372}
@@ -8363,7 +8412,7 @@ MonoBehaviour:
   rightHandPrefab: {fileID: 1199573448922457289, guid: 869f1063756ab475bb9430663f5140b4, type: 3}
   freeHandContainer: {fileID: 1640609169}
   overlayCamera: {fileID: 1247514685}
-  pianoSpawnOffset: {x: 0, y: 0, z: 0}
+  pianoSpawnOffset: {x: 0, y: 0.15, z: -0.24}
   calibrationCountdown: 3
   calibrationCountdownText: {fileID: 360485332}
 --- !u!1 &1247514682
@@ -12676,6 +12725,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a09f191f6aecf4113b2654ac41290f50, type: 2}
   - {fileID: 11400000, guid: 23b0641fb205a4a4c84a792d6c1fd1e1, type: 2}
   - {fileID: 11400000, guid: 325d2833f29844d8dab86400dc9ffde5, type: 2}
+  - {fileID: 11400000, guid: ad5daf76e621c4b56902b99083017f30, type: 2}
+  - {fileID: 11400000, guid: c967b264aed084ae08261231a46f30db, type: 2}
+  - {fileID: 11400000, guid: ccba0551ad2864ce1857ff0b5a2395e6, type: 2}
   maxStepInterval: 1.5
   minHoldDuration: 0.2
   debugLogging: 1
@@ -15733,3 +15785,4 @@ SceneRoots:
   - {fileID: 1247514686}
   - {fileID: 1640609169}
   - {fileID: 2011790148}
+  - {fileID: 670285201}

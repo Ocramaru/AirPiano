@@ -23,6 +23,21 @@ namespace Hand
         private Vector3[] _landmarks = new Vector3[21];
         private Vector3 _palmNormal;
 
+        // EMA state
+        private Vector3[] _previousLandmarks = new Vector3[21];
+        private Quaternion _previousWristRotation = Quaternion.identity;
+        private bool _useEma;
+        private bool _hasPreviousLandmarks;
+        private float _lastValidLandmarkTime;
+        private float _presenceStartTime;
+        private bool _hasValidLandmarks;
+
+        private bool HasSufficientPresence =>
+            Time.time - _presenceStartTime >= Settings.Instance.minPresenceBeforeHold;
+
+        public bool IsHolding => _hasValidLandmarks && HasSufficientPresence &&
+            Time.time - _lastValidLandmarkTime < Settings.Instance.handHoldDuration;
+
         // Cached bone lengths per chain: [wrist->_a, _a->_b, _b->_c, _c->_end]
         public bool drawDebugSpines;
         private Handy handy;
@@ -31,7 +46,7 @@ namespace Hand
         /// Per-frame metadata computed after UpdateFromLandmarks.
         /// Contains finger curls, palm normal, and fingertip positions for gesture matching.
         /// </summary>
-        public HandMetadata Metadata { get; private set; }
+        public HandMetadata Metadata;
 
         // Model uses -X and X as forward right and left, LookRotation uses Z as forward
         public Quaternion axisCorrection;
@@ -48,6 +63,10 @@ namespace Hand
             axisCorrection = isLeftHand ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, -90, 0);
             _leftHandMultiplier = isLeftHand ? -1f : 1f;
             handy = new Handy();
+            
+            if (Settings.Instance)
+                _useEma = Settings.Instance.usePreviousHandPositions;
+            
             if (!drawDebugSpines) return;
             CacheSpineLengths();
         }
@@ -65,11 +84,35 @@ namespace Hand
 
         public void UpdateFromLandmarks(NormalizedLandmarks landmarks)
         {
-            if (landmarks.landmarks == null || landmarks.landmarks.Count < 21) return;
+            bool hasLandmarks = landmarks.landmarks != null && landmarks.landmarks.Count >= 21;
+
+            if (hasLandmarks) {
+                if (!_hasValidLandmarks) _presenceStartTime = Time.time;
+                _lastValidLandmarkTime = Time.time;
+                _hasValidLandmarks = true;
+            } else if (IsHolding) {
+                Metadata.isValid = false;
+                return;
+            } else {
+                _hasValidLandmarks = false;
+                _hasPreviousLandmarks = false;
+                Metadata.isValid = false;
+                return;
+            }
 
             // Convert Landmarks to Unity Space
             for (int i = 0; i < 21; i++) _landmarks[i] = Handy.ToVector3(landmarks.landmarks[i]);
-            
+
+            // Apply EMA smoothing to landmarks
+            if (_useEma && _hasPreviousLandmarks)
+            {
+                float alpha = Settings.Instance.landmarkEMAAlpha;
+                for (int i = 0; i < 21; i++)
+                {
+                    _landmarks[i] = Vector3.Lerp(_previousLandmarks[i], _landmarks[i], alpha);
+                }
+            }
+
             // Centroid (basically palm)
             Vector3 centroid = (_landmarks[0] + _landmarks[1] + _landmarks[5] + _landmarks[9] + _landmarks[13] + _landmarks[17]) / 6;
             Vector3 centroidDirection = (centroid - _landmarks[0]).normalized;
@@ -78,12 +121,24 @@ namespace Hand
             // Wrist points to centroid of palm
             wrist.rotation = Quaternion.LookRotation(centroidDirection, _palmNormal) * axisCorrection;
 
+            // Apply EMA smoothing to wrist rotation
+            if (_useEma && _hasPreviousLandmarks)
+            {
+                float alpha = Settings.Instance.wristRotationEMAAlpha;
+                wrist.rotation = Quaternion.Slerp(_previousWristRotation, wrist.rotation, alpha);
+            }
+
             // Fingers
             UpdateFinger(thumb, true);
             UpdateFinger(index);
             UpdateFinger(middle);
             UpdateFinger(ring);
             UpdateFinger(pinky);
+
+            // Cache current frame for next EMA calculation
+            System.Array.Copy(_landmarks, _previousLandmarks, 21);
+            _previousWristRotation = wrist.rotation;
+            _hasPreviousLandmarks = true;
 
             // Compute metadata for gesture matching
             ComputeMetadata();
@@ -126,6 +181,7 @@ namespace Hand
 
             Metadata = new HandMetadata
             {
+                isValid = true,
                 thumbCurl = ComputeFingerCurl(thumb, isThumb: true),
                 indexCurl = ComputeFingerCurl(index),
                 middleCurl = ComputeFingerCurl(middle),

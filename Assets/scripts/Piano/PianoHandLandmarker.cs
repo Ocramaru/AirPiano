@@ -205,17 +205,25 @@ namespace Piano
                 }
             }
 
-            // Hide hands that weren't detected this frame
-            if (!_leftHandDetected)
+            // Handle hands that weren't detected this frame
+            if (!_leftHandDetected && _leftFreeHand)
             {
-                if (_leftFreeHand) _leftFreeHand.gameObject.SetActive(false);
-                if (_leftPianoHand) _leftPianoHand.gameObject.SetActive(false);
+                _leftFreeHand.UpdateFromLandmarks(default);
+                if (!_leftFreeHand.IsHolding)
+                {
+                    _leftFreeHand.gameObject.SetActive(false);
+                    if (_leftPianoHand) _leftPianoHand.gameObject.SetActive(false);
+                }
             }
 
-            if (!_rightHandDetected)
+            if (!_rightHandDetected && _rightFreeHand)
             {
-                if (_rightFreeHand) _rightFreeHand.gameObject.SetActive(false);
-                if (_rightPianoHand) _rightPianoHand.gameObject.SetActive(false);
+                _rightFreeHand.UpdateFromLandmarks(default);
+                if (!_rightFreeHand.IsHolding)
+                {
+                    _rightFreeHand.gameObject.SetActive(false);
+                    if (_rightPianoHand) _rightPianoHand.gameObject.SetActive(false);
+                }
             }
         }
         

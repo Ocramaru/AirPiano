@@ -344,8 +344,23 @@ MonoBehaviour:
     startLandmark: 17
     name: Pinky
   drawDebugSpines: 1
+  Metadata:
+    isValid: 0
+    thumbCurl: 0
+    indexCurl: 0
+    middleCurl: 0
+    ringCurl: 0
+    pinkyCurl: 0
+    palmNormal: {x: 0, y: 0, z: 0}
+    thumbTip: {x: 0, y: 0, z: 0}
+    indexTip: {x: 0, y: 0, z: 0}
+    middleTip: {x: 0, y: 0, z: 0}
+    ringTip: {x: 0, y: 0, z: 0}
+    pinkyTip: {x: 0, y: 0, z: 0}
+    wristRotation: {x: 0, y: 0, z: 0, w: 0}
+    wristVerticalDot: 0
   axisCorrection: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-  _leftHandMultiplier: 1
+  _leftHandMultiplier: -1
 --- !u!1 &1542298869718370816
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,7 +831,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8708bfe1fa587410096a23939d5d78ef, type: 2}
+  - {fileID: 2100000, guid: 7b106ff3204c1425fb2083be165bc318, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
