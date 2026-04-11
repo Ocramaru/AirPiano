@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Gestures;
 using Hand;
 
 namespace Piano
@@ -19,14 +18,18 @@ namespace Piano
 
         private Hand.Hand _hand;
 
-        // Flat hand reference rotations
+        // Flat hand reference rotations (piano hand at rest)
         private Dictionary<Finger, Quaternion[]> _flatHandRotations;
         private Quaternion _flatWristRotation;
 
-        // Calibration state
+        // Calibration state - wrist
         private Vector3 _restingWristPosition;
         private Vector3 _pianoRestingPosition;
         private Quaternion _restingWristRotation;
+
+        // Calibration state - fingers (free hand joint rotations at calibration)
+        private Dictionary<Finger, Quaternion[]> _restingFingerRotations;
+
         private bool _calibrated;
         public bool IsCalibrated => _calibrated;
 
@@ -70,12 +73,35 @@ namespace Piano
             Quaternion rotDelta = freeHand.wrist.rotation * Quaternion.Inverse(_restingWristRotation);
             _hand.wrist.rotation = rotDelta * _flatWristRotation;
 
-            // Copy finger curls from free hand metadata
-            ApplyFingerCurlsFromMetadata(freeHand.Metadata);
+            // Apply finger rotation deltas
+            ApplyFingerRotations(_hand.thumb, freeHand.thumb);
+            ApplyFingerRotations(_hand.index, freeHand.index);
+            ApplyFingerRotations(_hand.middle, freeHand.middle);
+            ApplyFingerRotations(_hand.ring, freeHand.ring);
+            ApplyFingerRotations(_hand.pinky, freeHand.pinky);
         }
 
         /// <summary>
-        /// Calibrate this piano hand. Captures the free hand's current position as "resting".
+        /// Apply rotation delta from free hand finger to piano hand finger.
+        /// </summary>
+        private void ApplyFingerRotations(Finger pianoFinger, Finger freeFinger)
+        {
+            if (pianoFinger.joints == null || freeFinger.joints == null) return;
+            if (!_flatHandRotations.TryGetValue(pianoFinger, out var flatRotations)) return;
+            if (!_restingFingerRotations.TryGetValue(pianoFinger, out var restingRotations)) return;
+
+            int count = Mathf.Min(pianoFinger.joints.Length, freeFinger.joints.Length);
+            for (int i = 0; i < count; i++)
+            {
+                // Rotation delta: current free hand rotation relative to calibrated resting
+                Quaternion rotDelta = freeFinger.joints[i].localRotation * Quaternion.Inverse(restingRotations[i]);
+                // Apply delta to piano hand's flat rotation
+                pianoFinger.joints[i].localRotation = rotDelta * flatRotations[i];
+            }
+        }
+
+        /// <summary>
+        /// Calibrate this piano hand. Captures the free hand's current position and finger rotations as "resting".
         /// </summary>
         public void Calibrate()
         {
@@ -85,33 +111,23 @@ namespace Piano
                 return;
             }
 
+            // Wrist calibration
             _restingWristPosition = freeHand.wrist.position;
             _restingWristRotation = freeHand.wrist.rotation;
             _pianoRestingPosition = _hand.wrist.position;
+
+            // Finger calibration - capture free hand joint rotations
+            _restingFingerRotations = new Dictionary<Finger, Quaternion[]>
+            {
+                { _hand.thumb, GetJointRotations(freeHand.thumb) },
+                { _hand.index, GetJointRotations(freeHand.index) },
+                { _hand.middle, GetJointRotations(freeHand.middle) },
+                { _hand.ring, GetJointRotations(freeHand.ring) },
+                { _hand.pinky, GetJointRotations(freeHand.pinky) }
+            };
+
             _calibrated = true;
             Debug.Log($"PianoHand calibrated: resting pos = {_restingWristPosition}");
-        }
-
-        private void ApplyFingerCurlsFromMetadata(HandMetadata metadata)
-        {
-            ApplyFingerCurl(_hand.thumb, metadata.thumbCurl, true);
-            ApplyFingerCurl(_hand.index, metadata.indexCurl);
-            ApplyFingerCurl(_hand.middle, metadata.middleCurl);
-            ApplyFingerCurl(_hand.ring, metadata.ringCurl);
-            ApplyFingerCurl(_hand.pinky, metadata.pinkyCurl);
-        }
-
-        private void ApplyFingerCurl(Finger finger, float curl, bool isThumb = false)
-        {
-            if (finger.joints == null || finger.joints.Length < 2) return;
-            if (!_flatHandRotations.TryGetValue(finger, out var flatRotations)) return;
-
-            for (int i = isThumb ? 0 : 1; i < finger.joints.Length; i++)
-            {
-                float curlAngle = curl * 90f;
-                var curledRotation = flatRotations[i] * Quaternion.Euler(curlAngle, 0f, 0f);
-                finger.joints[i].localRotation = curledRotation;
-            }
         }
     }
 }

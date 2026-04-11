@@ -57,6 +57,7 @@ namespace Piano
         private bool _rightHandDetected;
 
         private const float FreeHandSeparation = 0.25f;
+        private const float PianoHandSeparation = 0.125f;
 
         // Public accessors
         public Hand.Hand LeftFreeHand => _leftFreeHand;
@@ -123,7 +124,7 @@ namespace Piano
 
             if (leftHandPrefab)
             {
-                var leftPianoObj = Instantiate(leftHandPrefab, pianoSpawnPos, Quaternion.identity, transform);
+                var leftPianoObj = Instantiate(leftHandPrefab, pianoSpawnPos - new Vector3(PianoHandSeparation, 0, 0), Quaternion.identity, transform);
                 leftPianoObj.gameObject.name = "LeftPianoHand";
                 _leftPianoHand = leftPianoObj.gameObject.AddComponent<PianoHand>();
                 _leftPianoHand.freeHand = _leftFreeHand;
@@ -132,7 +133,7 @@ namespace Piano
 
             if (rightHandPrefab)
             {
-                var rightPianoObj = Instantiate(rightHandPrefab, pianoSpawnPos, Quaternion.identity, transform);
+                var rightPianoObj = Instantiate(rightHandPrefab, pianoSpawnPos + new Vector3(PianoHandSeparation, 0, 0), Quaternion.identity, transform);
                 rightPianoObj.gameObject.name = "RightPianoHand";
                 _rightPianoHand = rightPianoObj.gameObject.AddComponent<PianoHand>();
                 _rightPianoHand.freeHand = _rightFreeHand;
