@@ -161,8 +161,8 @@ namespace Hand
                 totalAngle += Vector3.Angle(boneDirection, nextBoneDirection);
 
                 // Debug: draw bone directions for each joint
-                Color color = i == 0 ? Color.red : (i == 1 ? Color.yellow : (i == 2 ? Color.green : Color.cyan));
-                Debug.DrawLine(finger.joints[i].position, finger.joints[i].position + boneDirection * 0.05f, color);
+                // Color color = i == 0 ? Color.red : (i == 1 ? Color.yellow : (i == 2 ? Color.green : Color.cyan));
+                // Debug.DrawLine(finger.joints[i].position, finger.joints[i].position + boneDirection * 0.05f, color);
             }
 
             // Thumb has less range, fingers need slightly higher divisor
